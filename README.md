@@ -1,7 +1,7 @@
 Ansible Role: Vulkan
 =========
 
-*Note*: This role is in early stages of development and not suitable for production. Contributions are welcome.
+**Note**: This role is in early stages of development and is not suitable for production. Contributions are welcome.
 
 Installs Vulkan drivers and development libraries in Fedora servers.
 Currently supports Fedora (+30) and NVIDIA, AMD and Intel platforms.
@@ -42,4 +42,4 @@ The following example assumes the host runs on Fedora with an AMD GPU, and insta
 License
 -------
 
-GPLv3
+This role is licensed under the GPL3. Check the LICENSE file for more information.
