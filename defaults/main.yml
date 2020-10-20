@@ -1,0 +1,6 @@
+---
+gpu_vendor: "all" # possible options: all, amd, nvidia, intel
+
+restart_on_install: True # might work incorrectly without restarting after install
+
+install_devel: True # whether to install development libraries

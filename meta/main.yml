@@ -1,0 +1,24 @@
+galaxy_info:
+  role_name: vulkan
+  author: Antonio Torres Moríñigo
+  description: Vulkan driver and development tools for Linux
+
+  license: GPL-3.0-only
+
+  min_ansible_version: 2.1
+
+  platforms:
+  - name: Fedora
+    versions:
+    - 30
+    - 31
+    - 32
+
+  galaxy_tags:
+    - gpu
+    - development
+    - gpgpu
+    - system
+    - vulkan
+
+dependencies: []

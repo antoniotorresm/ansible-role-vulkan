@@ -1,0 +1,5 @@
+---
+
+# Setup tasks
+- include_tasks: setup-Fedora.yml
+  when: ansible_os_family == "Fedora"
