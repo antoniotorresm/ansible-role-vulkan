@@ -1,0 +1,36 @@
+---
+- name: Install Vulkan packages for NVIDIA
+  dnf:
+    name:
+      - 'https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ hostvars[inventory_hostname].ansible_distribution_major_version }}.noarch.rpm'
+      - 'https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ hostvars[inventory_hostname].ansible_distribution_major_version }}.noarch.rpm'
+      - xorg-x11-drv-nvidia
+      - akmod-nvidia
+      - vulkan
+      - vulkan-tools
+    state: present
+  when: gpu_vendor == "nvidia" or gpu_vendor == "all"
+
+- name: Install Vulkan packages for AMD
+  dnf:
+    name:
+      - mesa-vulkan-drivers
+      - vulkan-loader
+      - vulkan-tools
+      - vulkan-validation-layers
+    state: present
+  when: gpu_vendor == "amd" or gpu_vendor == "all"
+
+- name: Install Vulkan development packages
+  dnf:
+    name:
+      - mesa-vulkan-devel
+      - vulkan-headers
+      - vulkan-loader-devel
+      - vulkan-validation-layers-devel
+  when: install_devel|bool
+
+- name: Reboot system if specified
+  when: reboot_on_install|bool
+  notify:
+    - reboot
