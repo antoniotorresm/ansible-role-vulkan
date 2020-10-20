@@ -1,38 +1,45 @@
-Role Name
+Ansible Role: Vulkan
 =========
 
-A brief description of the role goes here.
+*Note*: This role is in early stages of development and not suitable for production. Contributions are welcome.
+
+Installs Vulkan drivers and development libraries in Fedora servers.
+Currently supports Fedora (+30) and NVIDIA, AMD and Intel platforms.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The hardware to be installed on must be Vulkan-compatible. This can be checked using the device's official
+documentation or the [Vulkan Hardware Database](https://vulkan.gpuinfo.org/).
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Variable name       | Default | Description                                                                                                                                   |
+|---------------------|---------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| `gpu_vendor`        | `"all"` | The GPU vendor of the server.  This can be `amd`, `nvidia`, `intel` or `all`.                                                                 |
+| `reboot_on_install` | `True`  | Whether to reboot the server after install drivers and libraries.  Keep in mind Vulkan might not work correctly without rebooting the system. |
+| `install_devel`     | `True`  | Whether to install development libraries and tools.  Useful for compiling and testing on servers.                                             |
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+The following example assumes the host runs on Fedora with an AMD GPU, and installs drivers and development libraries. Reboot after installing is also recommended.
 
-    - hosts: servers
+    - hosts: gpuserver
+      vars:
+        gpu_vendor: "amd"
+        install_devel: True
+        reboot_on_install: True
       roles:
-         - { role: username.rolename, x: 42 }
+         - { role: atorresm.vulkan }
 
 License
 -------
 
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+GPLv3
