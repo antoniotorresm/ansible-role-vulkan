@@ -1,3 +1,4 @@
 ---
 - name: reboot
   command: /sbin/shutdown -r now
+  when: reboot_on_install|bool
