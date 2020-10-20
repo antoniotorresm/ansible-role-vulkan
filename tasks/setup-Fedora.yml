@@ -21,6 +21,16 @@
     state: present
   when: gpu_vendor == "amd" or gpu_vendor == "all"
 
+- name: Install Vulkan packages for Intel
+  dnf:
+    name:
+      - mesa-vulkan-drivers
+      - vulkan-loader
+      - vulkan-tools
+      - vulkan-validation-layers
+    state: present
+  when: gpu_vendor == "intel" or gpu_vendor == "all"
+
 - name: Install Vulkan development packages
   dnf:
     name:
