@@ -1,6 +1,10 @@
 ---
-gpu_vendor: "all" # possible options: all, amd, nvidia, intel
+# possible options: all, amd, nvidia, intel
+gpu_vendor: "all"
 
-reboot_on_install: True # Vulkan might work incorrectly without restarting after install
+# Reboot is recommended,
+# Vulkan might work incorrectly without restarting after install
+reboot_on_install: true
 
-install_devel: True # whether to install development libraries
+# whether to install development libraries
+install_devel: true

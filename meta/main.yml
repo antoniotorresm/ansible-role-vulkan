@@ -1,3 +1,4 @@
+---
 galaxy_info:
   role_name: vulkan
   author: Antonio Torres Moríñigo
@@ -8,11 +9,11 @@ galaxy_info:
   min_ansible_version: 2.1
 
   platforms:
-  - name: Fedora
-    versions:
-    - 30
-    - 31
-    - 32
+    - name: Fedora
+      versions:
+        - 30
+        - 31
+        - 32
 
   galaxy_tags:
     - gpu
