@@ -11,7 +11,9 @@
 - name: Install Vulkan packages for NVIDIA
   dnf:
     name:
+      # yamllint disable-line rule:line-length
       - 'https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ hostvars[inventory_hostname].ansible_distribution_major_version }}.noarch.rpm'  # noqa 204
+      # yamllint disable-line rule:line-length
       - 'https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ hostvars[inventory_hostname].ansible_distribution_major_version }}.noarch.rpm'  # noqa 204
       - xorg-x11-drv-nvidia
       - akmod-nvidia
