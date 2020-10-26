@@ -37,7 +37,7 @@ The following example assumes the host runs on Fedora with an AMD GPU, and insta
         install_devel: True
         reboot_on_install: True
       roles:
-         - { role: atorresm.vulkan }
+         - { role: antoniotorresm.vulkan }
 
 License
 -------
