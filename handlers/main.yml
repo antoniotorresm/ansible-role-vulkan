@@ -1,4 +1,6 @@
 ---
 - name: reboot
-  command: /sbin/shutdown -r now
-  when: reboot_on_install|bool
+  reboot:
+  when:
+    - reboot_on_install
+    - ansible_connection != 'podman'
