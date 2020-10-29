@@ -1,53 +1,51 @@
 ---
-- name: Install Vulkan development packages
-  dnf:
-    name:
-      - mesa-vulkan-devel
-      - vulkan-headers
-      - vulkan-loader-devel
-      - vulkan-validation-layers-devel
-  when: install_devel|bool
+- name: Include OS-specific variables
+  include_vars: "{{ ansible_facts['distribution'] }}.yml"
 
-- name: Add RPM Fusion repositories
-  warn: false
-  command: "dnf install {{ item }} -y"
-  with_items:
-    # yamllint disable-line rule:line-length
-    - "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ hostvars[inventory_hostname].ansible_distribution_major_version }}.noarch.rpm" # noqa 204
-    # yamllint disable-line rule:line-length
-    - "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ hostvars[inventory_hostname].ansible_distribution_major_version }}.noarch.rpm" # noqa 204
-  when: gpu_vendor == "nvidia" or gpu_vendor == "all"
+- name: Add additional repositories
+  block:
+    - name: Import RPM Fusion GPG keys
+      rpm_key:
+        key: "{{ item }}"
+        state: present
+      with_items:
+        # yamllint disable-line rule:line-length
+        - "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-{{ hostvars[inventory_hostname].ansible_distribution_major_version }}" # noqa 204
+        # yamllint disable-line rule:line-length
+        - "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-free-fedora-{{ hostvars[inventory_hostname].ansible_distribution_major_version }}" # noqa 204
+
+    - name: Install RPM Fusion repository packages
+      package:
+        name: "{{ additional_repos }}"
+        state: present
+
+- name: Install Vulkan development packages
+  package:
+    name: "{{ development_packages }}"
+    state: present
+  when: install_devel
+  notify:
+    - reboot
 
 - name: Install Vulkan packages for NVIDIA
-  dnf:
-    name:
-      - akmod-nvidia
-      - vulkan
-      - vulkan-tools
+  package:
+    name: "{{ nvidia_packages }}"
     state: present
   when: gpu_vendor == "nvidia" or gpu_vendor == "all"
   notify:
     - reboot
 
 - name: Install Vulkan packages for AMD
-  dnf:
-    name:
-      - mesa-vulkan-drivers
-      - vulkan-loader
-      - vulkan-tools
-      - vulkan-validation-layers
+  package:
+    name: "{{ amd_packages }}"
     state: present
   when: gpu_vendor == "amd" or gpu_vendor == "all"
   notify:
     - reboot
 
 - name: Install Vulkan packages for Intel
-  dnf:
-    name:
-      - mesa-vulkan-drivers
-      - vulkan-loader
-      - vulkan-tools
-      - vulkan-validation-layers
+  package:
+    name: "{{ intel_packages }}"
     state: present
   when: gpu_vendor == "intel" or gpu_vendor == "all"
   notify:
